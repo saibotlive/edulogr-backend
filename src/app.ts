@@ -9,10 +9,12 @@ import incidentRoutes from './routes/incidentRoutes';
 const envFile = `.env.${process.env.NODE_ENV}`;
 dotenv.config({ path: envFile });
 
+const APP_URL = process.env.APP_URL;
+
 const app = express();
 
 // Configure CORS to allow requests from your Vercel frontend
-const allowedOrigins = ['https://edulogr.vercel.app', 'http://localhost:3000'];
+const allowedOrigins = [APP_URL];
 const corsOptions = {
   origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -30,6 +32,7 @@ app.use('/api/institutions', institutionRoutes);
 app.use('/api/incidents', incidentRoutes);
 
 const MONGODB_URI = process.env.MONGODB_URI;
+
 if (!MONGODB_URI) {
   console.error('MongoDB connection string is not defined in environment variables');
   process.exit(1);
