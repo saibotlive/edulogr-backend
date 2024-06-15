@@ -1,5 +1,5 @@
 import express from 'express';
-import mongoose from 'mongoose';
+import mongoose, { ConnectOptions } from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import institutionRoutes from './routes/institutionRoutes';
@@ -41,7 +41,7 @@ mongoose
     useUnifiedTopology: true,
     serverSelectionTimeoutMS: 30000, // 30 seconds
     socketTimeoutMS: 45000, // 45 seconds
-  } as mongoose.ConnectOptions)
+  } as ConnectOptions)
   .then(() => console.log('MongoDB connected'))
   .catch((err) => {
     console.error('MongoDB connection error:', err);
@@ -49,6 +49,11 @@ mongoose
   });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app
+  .listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  })
+  .on('error', (err) => {
+    console.error('Server startup error:', err);
+    process.exit(1);
+  });
