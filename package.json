@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "dist/app.js",
   "license": "MIT",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "start:prod": "NODE_ENV=production ts-node src/app.ts",
     "start": "NODE_ENV=dev ts-node src/app.ts",
