@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import cors from 'cors';
+import cors, { CorsOptions } from 'cors';
 import dotenv from 'dotenv';
 import institutionRoutes from './routes/institutionRoutes';
 import incidentRoutes from './routes/incidentRoutes';
@@ -12,10 +12,10 @@ dotenv.config({ path: envFile });
 const app = express();
 
 // Configure CORS to allow requests from your Vercel frontend
-const allowedOrigins = ['https://edulogr.vercel.app', 'http://localhost:3000'];
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+const allowedOrigins = ['https://edulogr.vercel.app', 'http://localhost:5173'];
+const corsOptions: CorsOptions = {
+  origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
